@@ -1,0 +1,121 @@
+{
+  "defaults": {
+    "image_path": "data/bg2.jpg",
+    "preview_width": 40,
+    "preview_height": 12
+  },
+  "semantic_templates": [
+    {
+      "id": "PIXEL_RAW",
+      "name": "像素映射",
+      "desc": "彩色 · 最接近原图",
+      "color_strategy": "truecolor",
+      "mode": "pixel_raw",
+      "defaults": {"width": 150, "aspect": 0.5},
+      "glyph_family": "PixelBlock"
+    },
+    {
+      "id": "PIXEL_MOSAIC",
+      "name": "马赛克映射",
+      "desc": "彩色 · 电视信号效果",
+      "color_strategy": "truecolor",
+      "mode": "pixel_mosaic",
+      "defaults": {"width": 140, "aspect": 0.5},
+      "glyph_family": "PixelBlock"
+    },
+    {
+      "id": "HALF_HD",
+      "name": "半块映射",
+      "desc": "彩色 · 终端高清模式",
+      "color_strategy": "truecolor",
+      "mode": "half_hd",
+      "defaults": {"width": 180, "aspect": 0.5},
+      "glyph_family": "HalfBlock"
+    },
+    {
+      "id": "CHAR_LUMINANCE",
+      "name": "亮度字符",
+      "desc": "文本艺术风",
+      "color_strategy": "truecolor_fg",
+      "mode": "char_luminance",
+      "defaults": {"width": 120, "aspect": 0.55},
+      "glyph_family": "AsciiSet"
+    },
+    {
+      "id": "GRAY_LEVEL",
+      "name": "灰度映射",
+      "desc": "DOS 风格",
+      "color_strategy": "grayscale",
+      "mode": "gray_level",
+      "defaults": {"width": 120, "aspect": 0.5},
+      "glyph_family": "GrayLevel"
+    },
+    {
+      "id": "EDGE_STRUCTURE",
+      "name": "轮廓映射",
+      "desc": "线稿素描风",
+      "color_strategy": "mono",
+      "mode": "edge_structure",
+      "defaults": {"width": 120, "aspect": 0.6},
+      "glyph_family": "EdgeLine"
+    }
+  ],
+  "glyph_variants": {
+    "PixelBlock": {
+      "default": "v1",
+      "variants": [
+        {"id": "v1", "name": "实心块", "desc": "像素感·饱满", "glyph": "█"},
+        {"id": "v2", "name": "密点块", "desc": "点阵感·密集", "glyph": "▓"},
+        {"id": "v3", "name": "中点块", "desc": "点阵感·适中", "glyph": "▒"},
+        {"id": "v4", "name": "疏点块", "desc": "点阵感·稀疏", "glyph": "░"},
+        {"id": "v5", "name": "小方块", "desc": "像素感·紧凑", "glyph": "■"},
+        {"id": "v6", "name": "圆点", "desc": "圆润·柔和", "glyph": "●"},
+        {"id": "v7", "name": "井号", "desc": "复古·终端风", "glyph": "#"},
+        {"id": "v8", "name": "星号", "desc": "闪烁·星空感", "glyph": "*"},
+        {"id": "v9", "name": "艾特", "desc": "网络·科技感", "glyph": "@"},
+        {"id": "v10", "name": "小圆", "desc": "轻盈·通透", "glyph": "○"}
+      ]
+    },
+    "HalfBlock": {
+      "default": "v1",
+      "variants": [
+        {"id": "v1", "name": "上半块", "desc": "标准高清", "glyph": "▀"},
+        {"id": "v2", "name": "下半块", "desc": "倒置高清", "glyph": "▄"}
+      ]
+    },
+    "AsciiSet": {
+      "default": "v1",
+      "variants": [
+        {"id": "v1", "name": "标准", "desc": "10级·经典", "charset": " .:-=+*#%@"},
+        {"id": "v2", "name": "轻量", "desc": "6级·简洁", "charset": " .-+#@"},
+        {"id": "v3", "name": "细腻", "desc": "16级·精细", "charset": " .'`^\",:;Il!i><~+_-?][}{1)(|/tfjrxnuvczXYUJCLQ0OZmwqpdbkhao*#MW&8%B@$"},
+        {"id": "v4", "name": "数字", "desc": "数码·矩阵风", "charset": " 0123456789"},
+        {"id": "v5", "name": "线条", "desc": "几何·线性", "charset": " .-|/\\+"},
+        {"id": "v6", "name": "字母", "desc": "文字·打字机", "charset": " .oO@#"}
+      ]
+    },
+    "GrayLevel": {
+      "default": "v1",
+      "variants": [
+        {"id": "v1", "name": "方块渐变", "desc": "4级·块状", "charset": " ░▒▓█"},
+        {"id": "v2", "name": "点阵渐变", "desc": "5级·点状", "charset": " .:-#"},
+        {"id": "v3", "name": "符号渐变", "desc": "6级·符号", "charset": " .-=+#@"}
+      ]
+    },
+    "EdgeLine": {
+      "default": "v1",
+      "variants": [
+        {"id": "v1", "name": "细线", "desc": "斜线·轻盈", "charset": " /\\|_-"},
+        {"id": "v2", "name": "粗线", "desc": "井号·粗犷", "charset": " #"},
+        {"id": "v3", "name": "交叉", "desc": "十字·网格", "charset": " +x"},
+        {"id": "v4", "name": "点线", "desc": "点状·虚线", "charset": " .:"}
+      ]
+    }
+  },
+  "legacy_mode_mapping": {
+    "bg": "PIXEL_RAW",
+    "fg": "CHAR_LUMINANCE",
+    "half": "HALF_HD",
+    "mono": "GRAY_LEVEL"
+  }
+}
