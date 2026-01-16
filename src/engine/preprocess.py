@@ -23,17 +23,14 @@ def resize(img: Image.Image, width: int, aspect: float) -> Image.Image:
 def center_crop(img: Image.Image, target_w: int, target_h: int) -> Image.Image:
     """中心裁剪"""
     w, h = img.size
-    # 计算裁剪区域
     crop_ratio = target_w / target_h
     img_ratio = w / h
 
     if img_ratio > crop_ratio:
-        # 图片更宽，裁剪左右
         new_w = int(h * crop_ratio)
         left = (w - new_w) // 2
         img = img.crop((left, 0, left + new_w, h))
     else:
-        # 图片更高，裁剪上下
         new_h = int(w / crop_ratio)
         top = (h - new_h) // 2
         img = img.crop((0, top, w, top + new_h))

@@ -16,7 +16,8 @@ class Config:
 
     def __init__(self, config_path: str = None):
         if config_path is None:
-            config_path = Path(__file__).parent.parent / "config" / "presets.json"
+            # 默认配置路径：项目根目录/config/presets.json
+            config_path = Path(__file__).parent.parent.parent / "config" / "presets.json"
         with open(config_path, "r", encoding="utf-8") as f:
             self._data = json.load(f)
 
@@ -78,7 +79,6 @@ class Renderer:
     def prepare_image(self, img: Image.Image, width: int, aspect: float,
                       mode: str = None) -> Image.Image:
         """准备图片 - 缩放"""
-        # half 模式需要双倍高度
         if mode == "half_hd":
             aspect = aspect * 2
         return resize(img, width, aspect)
@@ -93,12 +93,7 @@ class Renderer:
     def render(self, img: Image.Image, template: dict, glyph_variant: dict = None,
                delay: float = 0, invert: bool = False, clear: bool = False,
                return_lines: bool = False):
-        """
-        执行渲染
-
-        Args:
-            return_lines: 若为 True，则不打印，只返回渲染行列表（用于导出）
-        """
+        """执行渲染"""
         mode = template.get("mode", "pixel_raw")
         color_strategy = template.get("color_strategy", "truecolor")
 
@@ -110,14 +105,12 @@ class Renderer:
             print(f"[错误] 未知渲染模式: {mode}")
             return None
 
-        # 获取 glyph/charset
         glyph = "█"
         charset = " .:-=+*#%@"
         if glyph_variant:
             glyph = glyph_variant.get("glyph", glyph)
             charset = glyph_variant.get("charset", charset)
 
-        # 根据模式调用不同参数
         if mode in ("pixel_raw", "pixel_mosaic"):
             return render_func(img, glyph=glyph, delay=delay, return_lines=return_lines)
         elif mode == "half_hd":

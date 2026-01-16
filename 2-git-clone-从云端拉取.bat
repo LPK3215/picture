@@ -7,7 +7,7 @@ title Git Clone - 万能拉取脚本
 REM ========================================
 REM   默认配置区（可根据需要修改）
 REM ========================================
-set DEFAULT_REPO=https://github.com/LPK3215/obsidian-notes.git
+set DEFAULT_REPO=https://github.com/LPK3215/picture.git
 set DEFAULT_BRANCH=main
 set DEFAULT_CLONE_MODE=1
 set PROXY_ADDR=127.0.0.1:7897

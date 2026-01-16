@@ -1,7 +1,5 @@
 """保存对话框模块 - 支持 GUI 和命令行降级"""
 
-import os
-
 _tk_available = True
 try:
     import tkinter as tk
@@ -11,17 +9,7 @@ except ImportError:
 
 
 def choose_save_path(ext: str, default_name: str = "output") -> str:
-    """
-    弹出保存对话框，返回用户选择的路径
-    若无 GUI 则降级为命令行输入
-
-    Args:
-        ext: 文件扩展名 (如 "png", "html", "ans")
-        default_name: 默认文件名
-
-    Returns:
-        保存路径，用户取消则返回 None
-    """
+    """弹出保存对话框，返回用户选择的路径"""
     filetypes = {
         "png": ("PNG 图片", "*.png"),
         "html": ("HTML 文件", "*.html"),
@@ -34,7 +22,6 @@ def choose_save_path(ext: str, default_name: str = "output") -> str:
 
     if _tk_available:
         try:
-            # 创建隐藏的 tk 窗口
             root = tk.Tk()
             root.withdraw()
             root.attributes('-topmost', True)
@@ -59,7 +46,6 @@ def choose_save_path(ext: str, default_name: str = "output") -> str:
     if not path:
         return None
 
-    # 自动补充扩展名
     if not path.endswith(f".{ext}"):
         path = f"{path}.{ext}"
 
