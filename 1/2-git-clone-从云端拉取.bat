@@ -7,7 +7,7 @@ title Git Clone - 万能拉取脚本
 REM ========================================
 REM   默认配置区（可根据需要修改）
 REM ========================================
-set DEFAULT_REPO=https://github.com/LPK3215/picture.git
+set DEFAULT_REPO=https://github.com/LPK3215/obsidian-notes.git
 set DEFAULT_BRANCH=main
 set DEFAULT_CLONE_MODE=1
 set PROXY_ADDR=127.0.0.1:7897
@@ -58,7 +58,7 @@ echo   [2] Gitee:   %GITEE_NEW_REPO%
 echo.
 echo 默认地址: %DEFAULT_REPO%
 echo.
-set /p INPUT_REPO=请输入要拉取的仓库地址（直接回车使用默认）:
+set /p INPUT_REPO=请输入要拉取的仓库地址（直接回车使用默认）: 
 if "!INPUT_REPO!"=="" (
     set FINAL_REPO=%DEFAULT_REPO%
 ) else (
@@ -82,14 +82,14 @@ if exist "!REPO_NAME!" (
     echo   [2] 拉取到其他文件夹
     echo   [3] 取消操作
     echo.
-    set /p CHOICE=请输入选项（1/2/3）:
+    set /p CHOICE=请输入选项（1/2/3）: 
     if "!CHOICE!"=="1" (
         echo 正在删除现有文件夹...
         rmdir /s /q "!REPO_NAME!"
         echo 已删除
         echo.
     ) else if "!CHOICE!"=="2" (
-        set /p CUSTOM_NAME=请输入新的文件夹名:
+        set /p CUSTOM_NAME=请输入新的文件夹名: 
         if "!CUSTOM_NAME!"=="" (
             echo 文件夹名不能为空，已取消操作
             pause
@@ -125,7 +125,7 @@ echo       - 可以回滚到之前的版本
 echo ----------------------------------------
 echo.
 echo 默认选项: %DEFAULT_CLONE_MODE%
-set /p CLONE_MODE=请选择克隆模式（1/2，直接回车使用默认）:
+set /p CLONE_MODE=请选择克隆模式（1/2，直接回车使用默认）: 
 if "!CLONE_MODE!"=="" set CLONE_MODE=%DEFAULT_CLONE_MODE%
 
 if "!CLONE_MODE!"=="1" (
@@ -144,7 +144,7 @@ REM ========================================
 echo [4/4] 拉取仓库...
 echo.
 
-set /p TARGET_BRANCH=拉取哪个分支？（直接回车默认为 "%DEFAULT_BRANCH%"）:
+set /p TARGET_BRANCH=拉取哪个分支？（直接回车默认为 "%DEFAULT_BRANCH%"）: 
 if "!TARGET_BRANCH!"=="" set TARGET_BRANCH=%DEFAULT_BRANCH%
 
 echo 正在从 !TARGET_BRANCH! 分支拉取（!CLONE_MODE_DESC!）...

@@ -7,7 +7,7 @@ title Git Push - 万能推送脚本
 REM ========================================
 REM   默认配置区（可根据需要修改）
 REM ========================================
-set DEFAULT_REPO=https://github.com/LPK3215/picture.git
+set DEFAULT_REPO=https://github.com/LPK3215/obsidian-notes.git
 set DEFAULT_EMAIL=17538703215@163.com
 set DEFAULT_NAME=LPK3215
 set DEFAULT_BRANCH=main
@@ -58,7 +58,7 @@ REM ========================================
 echo [2/5] 检查Git仓库...
 if not exist ".git" (
     echo [提示] 当前目录不是Git仓库
-    set /p DO_INIT=是否要初始化为Git仓库？（输入 yes 或直接回车取消）:
+    set /p DO_INIT=是否要初始化为Git仓库？（输入 yes 或直接回车取消）: 
     if /i "!DO_INIT!"=="yes" (
         echo 正在初始化Git仓库...
         git init
@@ -92,7 +92,7 @@ if "!CURRENT_REPO!"=="" (
     echo 创建完成后，复制仓库地址粘贴到下方
     echo 默认地址: %DEFAULT_REPO%
     echo.
-    set /p INPUT_REPO=请输入远程仓库地址（直接回车使用默认）:
+    set /p INPUT_REPO=请输入远程仓库地址（直接回车使用默认）: 
     if "!INPUT_REPO!"=="" (
         set FINAL_REPO=%DEFAULT_REPO%
     ) else (
@@ -103,7 +103,7 @@ if "!CURRENT_REPO!"=="" (
     echo.
 ) else (
     echo [当前远程仓库] !CURRENT_REPO!
-    set /p INPUT_REPO=直接回车使用当前地址，或输入新地址:
+    set /p INPUT_REPO=直接回车使用当前地址，或输入新地址: 
     if "!INPUT_REPO!"=="" (
         set FINAL_REPO=!CURRENT_REPO!
     ) else (
@@ -126,7 +126,7 @@ for /f "delims=" %%i in ('git config --global user.name 2^>nul') do set GIT_NAME
 if "!GIT_EMAIL!"=="" (
     echo [提示] 检测到未配置Git用户邮箱
     echo 默认邮箱: %DEFAULT_EMAIL%
-    set /p INPUT_EMAIL=请输入邮箱（直接回车使用默认）:
+    set /p INPUT_EMAIL=请输入邮箱（直接回车使用默认）: 
     if "!INPUT_EMAIL!"=="" (
         set GIT_EMAIL=%DEFAULT_EMAIL%
     ) else (
@@ -141,7 +141,7 @@ if "!GIT_EMAIL!"=="" (
 if "!GIT_NAME!"=="" (
     echo [提示] 检测到未配置Git用户名
     echo 默认用户名: %DEFAULT_NAME%
-    set /p INPUT_NAME=请输入用户名（直接回车使用默认）:
+    set /p INPUT_NAME=请输入用户名（直接回车使用默认）: 
     if "!INPUT_NAME!"=="" (
         set GIT_NAME=%DEFAULT_NAME%
     ) else (
@@ -166,7 +166,7 @@ git status --short
 echo ----------------------------------------
 echo.
 
-set /p ADD_FILES=直接回车添加所有文件，或输入指定文件路径（多个用空格分开）:
+set /p ADD_FILES=直接回车添加所有文件，或输入指定文件路径（多个用空格分开）: 
 if "!ADD_FILES!"=="" (
     echo 正在添加所有文件...
     git add .
@@ -178,19 +178,19 @@ if "!ADD_FILES!"=="" (
 git diff --cached --quiet
 if errorlevel 1 (
     echo.
-    set /p COMMIT_MSG=请输入提交信息（直接回车默认为 "%DEFAULT_COMMIT_MSG%"）:
+    set /p COMMIT_MSG=请输入提交信息（直接回车默认为 "%DEFAULT_COMMIT_MSG%"）: 
     if "!COMMIT_MSG!"=="" set COMMIT_MSG=%DEFAULT_COMMIT_MSG%
     echo 正在提交...
     git commit -m "!COMMIT_MSG!"
     echo.
-
+    
     REM 检测当前分支
     set CURRENT_BRANCH=
     for /f "delims=" %%i in ('git branch --show-current 2^>nul') do set CURRENT_BRANCH=%%i
     if "!CURRENT_BRANCH!"=="" set CURRENT_BRANCH=%DEFAULT_BRANCH%
-    set /p TARGET_BRANCH=推送到哪个分支？（直接回车默认为 "!CURRENT_BRANCH!"）:
+    set /p TARGET_BRANCH=推送到哪个分支？（直接回车默认为 "!CURRENT_BRANCH!"）: 
     if "!TARGET_BRANCH!"=="" set TARGET_BRANCH=!CURRENT_BRANCH!
-
+    
     echo.
     echo 正在推送到 !TARGET_BRANCH! 分支...
     git push -u origin !TARGET_BRANCH!
