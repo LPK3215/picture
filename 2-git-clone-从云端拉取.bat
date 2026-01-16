@@ -157,4 +157,17 @@ if errorlevel 1 (
 )
 
 echo.
+echo ========================================
+echo   仓库地址信息
+echo ========================================
+echo   默认仓库: %DEFAULT_REPO%
+if exist "!REPO_NAME!\.git" (
+    pushd "!REPO_NAME!"
+    for /f "delims=" %%i in ('git remote get-url origin 2^>nul') do (
+        echo   本项目绑定: %%i
+    )
+    popd
+)
+echo ========================================
+echo.
 pause

@@ -202,4 +202,15 @@ if errorlevel 1 (
 )
 
 echo.
+echo ========================================
+echo   当前项目远程仓库信息
+echo ========================================
+for /f "delims=" %%i in ('git remote get-url origin 2^>nul') do (
+    echo   远程仓库地址: %%i
+)
+for /f "delims=" %%i in ('git branch --show-current 2^>nul') do (
+    echo   当前分支: %%i
+)
+echo ========================================
+echo.
 pause
