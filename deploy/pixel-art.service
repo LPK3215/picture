@@ -1,0 +1,15 @@
+[Unit]
+Description=Pixel Art Generator
+After=network.target
+
+[Service]
+Type=simple
+User=www-data
+WorkingDirectory=/opt/pixel-art
+ExecStart=/opt/pixel-art/venv/bin/python /opt/pixel-art/app.py
+Restart=always
+RestartSec=10
+Environment=GRADIO_SERVER_NAME=0.0.0.0
+
+[Install]
+WantedBy=multi-user.target

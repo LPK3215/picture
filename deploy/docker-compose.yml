@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+  pixel-art:
+    build: ..
+    ports:
+      - "7860:7860"
+    restart: unless-stopped
+    volumes:
+      - ../data:/app/data
+    environment:
+      - GRADIO_SERVER_NAME=0.0.0.0
