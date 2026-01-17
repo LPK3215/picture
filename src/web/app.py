@@ -69,7 +69,8 @@ class PixelArtApp:
         if max(w, h) > max_size:
             ratio = max_size / max(w, h)
             new_w, new_h = int(w * ratio), int(h * ratio)
-            img = img.resize((new_w, new_h), Image.Resampling.LANCZOS)
+            resized = img.resize((new_w, new_h), Image.Resampling.LANCZOS)
+            return resized
         return img
 
     def render_to_html_lines(self, img: Image.Image, template: dict, 
@@ -121,6 +122,33 @@ class PixelArtApp:
 
         except Exception as e:
             return f"<div class='preview-box error'>预览失败: {str(e)}</div>"
+
+    def auto_clear_on_upload(self):
+        """上传新图片时自动清除旧的预览和下载"""
+        return (
+            """<div class="preview-box empty">
+                <div class="empty-hint">
+                    <span class="icon">🖼️</span>
+                    <p>上传图片开始创作</p>
+                </div>
+            </div>""",  # 清空预览
+            None,  # 清空 PNG 下载
+            None   # 清空 HTML 下载
+        )
+
+    def do_clear(self):
+        """清除缓存"""
+        return (
+            None,  # 清空图片
+            """<div class="preview-box empty">
+                <div class="empty-hint">
+                    <span class="icon">🖼️</span>
+                    <p>上传图片开始创作</p>
+                </div>
+            </div>""",  # 清空预览
+            None,  # 清空 PNG 下载
+            None   # 清空 HTML 下载
+        )
 
     def do_export_png(self, img, template_id: str, glyph_id: str, width: int):
         """导出字符画图像"""
@@ -316,16 +344,22 @@ def create_app(config_path: Path = None) -> gr.Blocks:
                     template_dropdown = gr.Dropdown(
                         choices=app.get_template_choices(),
                         value=app.config.templates[0]["id"] if app.config.templates else None,
-                        label="🎭 渲染风格"
+                        label="🎭 渲染风格",
+                        allow_custom_value=False,
+                        interactive=True
                     )
                     glyph_dropdown = gr.Dropdown(
                         choices=app.get_glyph_choices(app.config.templates[0]["id"]) if app.config.templates else [],
                         value="v1",
-                        label="✨ 字符样式"
+                        label="✨ 字符样式",
+                        allow_custom_value=False,
+                        interactive=True
                     )
                     width_slider = gr.Slider(minimum=60, maximum=MAX_WIDTH, value=150, step=10, label="📐 精细度")
-                
-                preview_btn = gr.Button("🚀 生成预览", variant="primary", size="lg", elem_classes="primary-btn")
+
+                with gr.Row():
+                    preview_btn = gr.Button("🚀 生成预览", variant="primary", size="lg", elem_classes="primary-btn", scale=2)
+                    clear_btn = gr.Button("🗑️ 清除", size="lg", scale=1)
                 
                 with gr.Group(elem_classes="export-section"):
                     with gr.Row():
@@ -341,8 +375,12 @@ def create_app(config_path: Path = None) -> gr.Blocks:
                 </div>""")
 
         # 事件绑定
+        # 上传新图片时自动清除旧的预览和下载文件
+        img_input.upload(fn=app.auto_clear_on_upload, inputs=[], outputs=[preview_output, png_download, html_download])
+
         template_dropdown.change(fn=app.on_template_change, inputs=[template_dropdown], outputs=[glyph_dropdown])
         preview_btn.click(fn=app.do_preview, inputs=[img_input, template_dropdown, glyph_dropdown, width_slider], outputs=[preview_output])
+        clear_btn.click(fn=app.do_clear, inputs=[], outputs=[img_input, preview_output, png_download, html_download])
         export_png_btn.click(fn=app.do_export_png, inputs=[img_input, template_dropdown, glyph_dropdown, width_slider], outputs=[png_download])
         export_html_btn.click(fn=app.do_export_html, inputs=[img_input, template_dropdown, glyph_dropdown, width_slider], outputs=[html_download])
 

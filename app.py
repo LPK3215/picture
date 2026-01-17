@@ -5,4 +5,8 @@ from src.web.app import create_app
 
 if __name__ == "__main__":
     demo = create_app()
-    demo.launch(server_name="0.0.0.0", server_port=7860)
+    demo.launch(
+        server_name="0.0.0.0",
+        server_port=7860,
+        max_threads=2  # 限制并发，防止内存耗尽
+    )
